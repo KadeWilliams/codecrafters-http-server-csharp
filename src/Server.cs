@@ -1,6 +1,8 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 // You can use print statements as follows for debugging, they'll be visible when running tests.
 Console.WriteLine("Logs from your program will appear here!");
@@ -11,6 +13,7 @@ server.Start();
 using var client = server.AcceptTcpClient();
 
 var stream = client.GetStream();
+Console.WriteLine(JsonSerializer.Serialize(stream));
 
 string response = "GET /index.html HTTP/1.1\r\nHost: localhost:4221\r\nUser-Agent: curl/7.64.1\r\nAccept: */*\r\n\r\n";
 var encodedResponse = Encoding.UTF8.GetBytes(response);
