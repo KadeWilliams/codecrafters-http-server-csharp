@@ -14,7 +14,7 @@ using var client = server.AcceptTcpClient();
 var stream = client.GetStream();
 
 string response = "HTTP/1.1 200 OK\r\n\r\n";
-var encodedResponse = Encoding.ASCII.GetBytes(response);
+var encodedResponse = Encoding.UTF8.GetBytes(response);
 
-stream.Write(encodedResponse);
+await stream.WriteAsync(encodedResponse, 0, encodedResponse.Length);
 stream.Flush();
