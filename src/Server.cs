@@ -11,9 +11,11 @@ server.Start();
 using var client = server.AcceptTcpClient();
 var stream = client.GetStream();
 
-var ba = new byte[256];
-await stream.ReadAsync(ba);
-Console.WriteLine(Encoding.ASCII.GetString(ba));
+var requestBa = new byte[256];
+await stream.ReadAsync(requestBa);
+var request = Encoding.ASCII.GetString(requestBa);
+var requestElements = request.Split(" ");
+Console.WriteLine(requestElements[1]);
 
 //var mba = new Span<byte>();
 //await stream.ReadAsync(mba);
