@@ -15,14 +15,22 @@ var requestBa = new byte[256];
 await stream.ReadAsync(requestBa);
 var request = Encoding.ASCII.GetString(requestBa);
 var requestElements = request.Split(" ");
-Console.WriteLine(requestElements[1]);
+//Console.WriteLine(requestElements[1]);
 
 //var mba = new Span<byte>();
 //await stream.ReadAsync(mba);
 //Encoding.ASCII.GetString(mba);
 
+var response = "";
+if (requestElements[1] != "/")
+{
+    response = "HTTP/1.1 404 Not Found\r\n\r\n";
+}
+else
+{
+    response = "HTTP/1.1 200 OK\r\n\r\n";
+}
+var encodedResponse = Encoding.ASCII.GetBytes(response);
+await stream.WriteAsync(encodedResponse, 0, encodedResponse.Length);
 
 //string response = "GET /index.html HTTP/1.1\r\nHost: localhost:4221\r\nUser-Agent: curl/7.64.1\r\nAccept: */*\r\n\r\n";
-//var encodedResponse = Encoding.ASCII.GetBytes(response);
-
-//await stream.WriteAsync(encodedResponse, 0, encodedResponse.Length);
