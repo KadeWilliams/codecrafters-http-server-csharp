@@ -11,11 +11,11 @@ server.Start();
 using var client = server.AcceptTcpClient();
 var stream = client.GetStream();
 
-var requestBa = new byte[256];
+var requestBa = new byte[1024];
 await stream.ReadAsync(requestBa);
 var request = Encoding.ASCII.GetString(requestBa);
 var requestElements = request.Split(" ");
-//Console.WriteLine(requestElements[1]);
+Console.WriteLine(string.Join(" ", requestElements));
 
 //var mba = new Span<byte>();
 //await stream.ReadAsync(mba);
@@ -23,22 +23,23 @@ var requestElements = request.Split(" ");
 
 var endpoint = requestElements[1];
 
-Console.WriteLine(string.Join(", ", endpoint.Split("/")));
+//Console.WriteLine(string.Join(",", endpoint.Split("/")));
 
 var response = endpoint switch
 {
-    string s when s.StartsWith("/echo") => s.Split("/")[2],
-    _ => ""
+    string s when s.StartsWith("/") => "HTTP/1.1 200 OK\r\n\r\n",
+    string s when s.StartsWith("/echo") => $"HTTP/1.1 200 OK\r\n\r\n{s.Split("/")[2]}",
+    _ => "HTTP/1.1 404 Not Found\r\n\r\n"
 };
 
-if (requestElements[1] != "/")
-{
-    response = "HTTP/1.1 404 Not Found\r\n\r\n";
-}
-else
-{
-    response = "HTTP/1.1 200 OK\r\n\r\n";
-}
+//if (requestElements[1] != "/")
+//{
+//    response = "";
+//}
+//else
+//{
+//    response = ;
+//}
 var encodedResponse = Encoding.ASCII.GetBytes(response);
 await stream.WriteAsync(encodedResponse, 0, encodedResponse.Length);
 
