@@ -15,7 +15,7 @@ var requestBa = new byte[1024];
 await stream.ReadAsync(requestBa);
 var request = Encoding.ASCII.GetString(requestBa);
 var requestElements = request.Split(" ");
-Console.WriteLine(string.Join(", ", requestElements));
+//Console.WriteLine(string.Join(", ", requestElements));
 
 //var mba = new Span<byte>();
 //await stream.ReadAsync(mba);
