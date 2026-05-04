@@ -21,7 +21,16 @@ var requestElements = request.Split(" ");
 //await stream.ReadAsync(mba);
 //Encoding.ASCII.GetString(mba);
 
-var response = "";
+var endpoint = requestElements[1];
+
+Console.WriteLine(string.Join(", ", endpoint.Split("/")));
+
+var response = endpoint switch
+{
+    string s when s.StartsWith("/echo") => s.Split("/")[2],
+    _ => ""
+};
+
 if (requestElements[1] != "/")
 {
     response = "HTTP/1.1 404 Not Found\r\n\r\n";
