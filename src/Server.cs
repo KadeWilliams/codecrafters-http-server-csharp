@@ -15,7 +15,7 @@ var requestBa = new byte[1024];
 await stream.ReadAsync(requestBa);
 var request = Encoding.ASCII.GetString(requestBa);
 var requestElements = request.Split(" ");
-Console.WriteLine(string.Join(" ", requestElements));
+Console.WriteLine(string.Join(", ", requestElements));
 
 //var mba = new Span<byte>();
 //await stream.ReadAsync(mba);
@@ -27,8 +27,8 @@ var endpoint = requestElements[1];
 
 var response = endpoint switch
 {
-    string s when s.StartsWith("/") => "HTTP/1.1 200 OK\r\n\r\n",
     string s when s.StartsWith("/echo") => $"HTTP/1.1 200 OK\r\n\r\n{s.Split("/")[2]}",
+    string s when s.StartsWith("/") => "HTTP/1.1 200 OK\r\n\r\n",
     _ => "HTTP/1.1 404 Not Found\r\n\r\n"
 };
 
