@@ -15,7 +15,8 @@ var requestBa = new byte[1024];
 await stream.ReadAsync(requestBa);
 var request = Encoding.ASCII.GetString(requestBa);
 var requestElements = request.Split(" ");
-//Console.WriteLine(string.Join(", ", requestElements));
+Console.WriteLine("Request Elements");
+Console.WriteLine(string.Join(", ", requestElements));
 
 //var mba = new Span<byte>();
 //await stream.ReadAsync(mba);
@@ -23,7 +24,8 @@ var requestElements = request.Split(" ");
 
 var endpoint = requestElements[1];
 
-//Console.WriteLine(string.Join(",", endpoint.Split("/")));
+Console.WriteLine("Split Endpoint");
+Console.WriteLine(string.Join(",", endpoint.Split("/")));
 
 var response = endpoint switch
 {
