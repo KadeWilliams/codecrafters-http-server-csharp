@@ -28,7 +28,7 @@ var endpoint = requestElements[1];
 var response = endpoint switch
 {
     string s when s.StartsWith("/echo") => $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {s.Split("/")[2].Length}\r\n\r\n{s.Split("/")[2]}",
-    //string s when s.StartsWith("/") => "HTTP/1.1 200 OK\r\n\r\n",
+    string s when s.StartsWith("/") && s.Length == 1 => "HTTP/1.1 200 OK\r\n\r\n",
     _ => "HTTP/1.1 404 Not Found\r\n\r\n"
 };
 
