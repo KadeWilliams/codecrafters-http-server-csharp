@@ -24,24 +24,17 @@ Console.WriteLine(string.Join(", ", requestElements));
 
 var endpoint = requestElements[1];
 
-Console.WriteLine("Split Endpoint");
-Console.WriteLine(string.Join(",", endpoint.Split("/")));
+//Console.WriteLine("Split Endpoint");
+//Console.WriteLine(string.Join(",", endpoint.Split("/")));
 
 var response = endpoint switch
 {
     string s when s.StartsWith("/echo") => $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {s.Split("/")[2].Length}\r\n\r\n{s.Split("/")[2]}",
+    string s when s.StartsWith("/user-agent") => $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {s.Split("/")[1].Length}\r\n\r\n",
     string s when s.StartsWith("/") && s.Length == 1 => "HTTP/1.1 200 OK\r\n\r\n",
     _ => "HTTP/1.1 404 Not Found\r\n\r\n"
 };
 
-//if (requestElements[1] != "/")
-//{
-//    response = "";
-//}
-//else
-//{
-//    response = ;
-//}
 var encodedResponse = Encoding.ASCII.GetBytes(response);
 await stream.WriteAsync(encodedResponse, 0, encodedResponse.Length);
 
