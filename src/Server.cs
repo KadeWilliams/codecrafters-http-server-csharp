@@ -12,6 +12,13 @@ foreach (var arg in args)
     Console.WriteLine(arg);
 }
 
+
+var root = "";
+if (args[1] == "--directory")
+{
+    root = args[2];
+}
+
 TcpListener server = new TcpListener(IPAddress.Any, 4221);
 server.Start();
 
@@ -60,6 +67,15 @@ while (true)
         {
             var userAgent = outDict["User-Agent"];
             output = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {userAgent.Trim().Length}\r\n\r\n{userAgent}";
+        }
+        else if (endpoint.Contains("/files"))
+        {
+            var file = endpoint.Split("/")[1];
+            Console.WriteLine(file);
+            var fileContents = File.ReadAllText(file);
+            Console.WriteLine(fileContents);
+            Console.WriteLine(fileContents.Length);
+            // read the content of that 
         }
         else
         {
