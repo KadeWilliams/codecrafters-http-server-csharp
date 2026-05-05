@@ -24,8 +24,8 @@ Console.WriteLine(string.Join(", ", requestElements));
 
 var endpoint = requestElements[1];
 
-//Console.WriteLine("Split Endpoint");
-//Console.WriteLine(string.Join(",", endpoint.Split("/")));
+Console.WriteLine("Split Endpoint");
+Console.WriteLine(string.Join(",", endpoint.Split("/")));
 
 var response = endpoint switch
 {
