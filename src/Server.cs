@@ -40,7 +40,9 @@ while (true)
         {
             if (i == 0)
             {
-                outDict.Add("endpoint", v.Split(" ")[1]);
+                var fullRequest = v.Split(" ");
+                outDict.Add("verb", fullRequest[0]);
+                outDict.Add("endpoint", fullRequest[1]);
                 continue;
             }
 
@@ -80,10 +82,15 @@ while (true)
             }
             else
             {
-                var fileContents = File.ReadAllText(fullPath);
-                //Console.WriteLine(fileContents);
-                //Console.WriteLine(fileContents.Length);
-                output = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {fileContents.Length}\r\n\r\n{fileContents}";
+                if (outDict["verb"] == "POST")
+                {
+                    output = $"HTTP/1.1 201 Created\r\n\r\n";
+                }
+                else
+                {
+                    var fileContents = File.ReadAllText(fullPath);
+                    output = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {fileContents.Length}\r\n\r\n{fileContents}";
+                }
             }
         }
         else
