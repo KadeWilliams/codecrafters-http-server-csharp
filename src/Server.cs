@@ -70,10 +70,18 @@ while (true)
             var fileName = endpoint.Split("/")[2];
             //Console.WriteLine(fileName);
             //Console.WriteLine(root + "/" + fileName);
-            var fileContents = File.ReadAllText(root + fileName);
-            //Console.WriteLine(fileContents);
-            //Console.WriteLine(fileContents.Length);
-            output = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {fileContents.Length}\r\n\r\n{fileContents}";
+            var fullPath = root + fileName;
+            if (!File.Exists(fullPath))
+            {
+                output = "HTTP/1.1 404 Not Found\r\n\r\n";
+            }
+            else
+            {
+                var fileContents = File.ReadAllText(fullPath);
+                //Console.WriteLine(fileContents);
+                //Console.WriteLine(fileContents.Length);
+                output = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {fileContents.Length}\r\n\r\n{fileContents}";
+            }
         }
         else
         {
