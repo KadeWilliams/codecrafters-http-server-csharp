@@ -7,6 +7,11 @@ using System.Text.Json;
 // You can use print statements as follows for debugging, they'll be visible when running tests.
 Console.WriteLine("Logs from your program will appear here!");
 
+foreach (var arg in args)
+{
+    Console.WriteLine(arg);
+}
+
 TcpListener server = new TcpListener(IPAddress.Any, 4221);
 server.Start();
 
