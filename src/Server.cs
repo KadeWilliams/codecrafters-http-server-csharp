@@ -14,7 +14,7 @@ var stream = client.GetStream();
 var requestBa = new byte[1024];
 await stream.ReadAsync(requestBa);
 var request = Encoding.ASCII.GetString(requestBa);
-var requestElements = request.Split(" ");
+var requestElements = request.Split("\n");
 Console.WriteLine("Request Elements");
 //Console.WriteLine(string.Join(", ", requestElements));
 //foreach (var element in requestElements.Select((v, i) => (v, i)))
