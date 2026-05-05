@@ -23,6 +23,7 @@ foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
     if (v.StartsWith("User-Agent"))
     {
         string userAgent = v.Split(" ")[1];
+        Console.WriteLine(userAgent);
     }
 }
 
