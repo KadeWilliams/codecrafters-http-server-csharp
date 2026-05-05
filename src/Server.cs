@@ -16,8 +16,8 @@ int bytesRead = await stream.ReadAsync(buffer);
 //Console.WriteLine(bytesRead);
 var request = Encoding.ASCII.GetString(buffer, 0, bytesRead).TrimEnd('\0');
 var requestElements = request.Split("\n");
-//Console.WriteLine("Request Elements");
-//Console.WriteLine(string.Join(", ", requestElements));
+Console.WriteLine("Request Elements");
+Console.WriteLine(string.Join(", ", requestElements));
 //string output = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n";
 var output = new List<string>();
 foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
