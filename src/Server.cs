@@ -26,10 +26,10 @@ while (true)
             {
                 root = args[1];
             }
-            if (args[1] == "--data")
-            {
-                contents = args[2];
-            }
+            //if (args[1] == "--data")
+            //{
+            //    contents = args[2];
+            //}
         }
         var stream = client.GetStream();
         var buffer = new byte[1024];
@@ -37,7 +37,7 @@ while (true)
 
         var request = Encoding.ASCII.GetString(buffer, 0, bytesRead).TrimEnd('\0');
         var requestElements = request.Split("\n");
-        //Console.WriteLine(JsonSerializer.Serialize(requestElements));
+        Console.WriteLine(JsonSerializer.Serialize(requestElements));
 
         var outDict = new Dictionary<string, string>();
         foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
