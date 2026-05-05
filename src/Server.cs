@@ -18,6 +18,7 @@ if (args[1] == "--directory")
 {
     Console.WriteLine(JsonSerializer.Serialize(args));
     root = args[2];
+    Console.WriteLine(root);
 }
 
 TcpListener server = new TcpListener(IPAddress.Any, 4221);
