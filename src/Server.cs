@@ -77,7 +77,7 @@ while (true)
             var fileContents = File.ReadAllText(root + "/" + fileName);
             Console.WriteLine(fileContents);
             Console.WriteLine(fileContents.Length);
-            // read the content of that 
+            output = $"HTTP/1.1 200 OK\r\nContent-Type: application/octect-stream\r\nContent-Length: {fileContents.Length}\r\n\r\n{fileContents}";
         }
         else
         {
