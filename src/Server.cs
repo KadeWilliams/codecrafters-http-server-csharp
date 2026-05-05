@@ -52,7 +52,7 @@ while (true)
                     break;
             }
         }
-        string output;
+        string output = "";
 
         var endpoint = outDict["endpoint"];
         if (endpoint.Contains("echo"))
