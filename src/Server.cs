@@ -22,6 +22,7 @@ Console.WriteLine(string.Join(", ", requestElements));
 var output = new List<string>();
 foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
 {
+    Console.WriteLine(v);
     string element = v switch
     {
         string s when s.StartsWith("GET") => s.Split(" ")[1], // endpoint
