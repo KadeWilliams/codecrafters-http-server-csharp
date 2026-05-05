@@ -76,7 +76,7 @@ while (true)
             //Console.WriteLine(fileName);
             //Console.WriteLine(root + "/" + fileName);
             var fullPath = root + fileName;
-            if (!File.Exists(fullPath))
+            if (!File.Exists(fullPath) && !(outDict["verb"] == "POST"))
             {
                 output = "HTTP/1.1 404 Not Found\r\n\r\n";
             }
