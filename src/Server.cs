@@ -20,11 +20,18 @@ Console.WriteLine("Request Elements");
 //Console.WriteLine(string.Join(", ", requestElements));
 foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
 {
-    if (v.StartsWith("User-Agent"))
+    string element = v switch
     {
-        string userAgent = v.Split(" ")[1];
-        Console.WriteLine(userAgent);
-    }
+        string s when s.StartsWith("/echo") => s.Split("/")[2],
+        string s when s.StartsWith("User-Agent") => s.Split(" ")[1],
+        _ => v
+    };
+    Console.WriteLine(element);
+
+    //if (v.StartsWith("User-Agent"))
+    //{
+    //    string userAgent = v.Split(" ")[1];
+    //}
 }
 
 //var verb = requestElements[0];
