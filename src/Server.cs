@@ -19,12 +19,16 @@ while (true)
 
         //Console.WriteLine($"All args: {JsonSerializer.Serialize(args)}");
         var root = "";
+        string contents = "";
         if (args.Length > 0)
         {
             if (args[0] == "--directory")
             {
                 root = args[1];
-                Console.WriteLine(root);
+            }
+            if (args[1] == "--data")
+            {
+                contents = args[2];
             }
         }
         var stream = client.GetStream();
@@ -84,6 +88,7 @@ while (true)
             {
                 if (outDict["verb"] == "POST")
                 {
+                    File.WriteAllText(fullPath, contents);
                     output = $"HTTP/1.1 201 Created\r\n\r\n";
                 }
                 else
