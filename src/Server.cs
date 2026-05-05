@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Sockets;
+using System.Net.WebSockets;
 using System.Text;
 
 // You can use print statements as follows for debugging, they'll be visible when running tests.
@@ -32,6 +33,8 @@ foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
         string s when s.StartsWith("Host") => s.Split(" ")[1], // 
         _ => string.Empty
     };
+
+    Console.WriteLine(element);
 
     if (!string.IsNullOrEmpty(element))
     {
