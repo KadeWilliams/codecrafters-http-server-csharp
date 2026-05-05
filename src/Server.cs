@@ -7,6 +7,12 @@ using System.Text.Json;
 // You can use print statements as follows for debugging, they'll be visible when running tests.
 Console.WriteLine("Logs from your program will appear here!");
 
+//Console.WriteLine($"All args: {JsonSerializer.Serialize(args)}");
+var root = "";
+if (args[0] == "--directory")
+{
+    root = args[1];
+}
 
 TcpListener server = new TcpListener(IPAddress.Any, 4221);
 server.Start();
@@ -17,13 +23,6 @@ while (true)
     Task.Run(async () =>
     {
 
-        //Console.WriteLine($"All args: {JsonSerializer.Serialize(args)}");
-        var root = "";
-        if (args[0] == "--directory")
-        {
-            root = args[1];
-            Console.WriteLine(root);
-        }
         var stream = client.GetStream();
         var buffer = new byte[1024];
         int bytesRead = await stream.ReadAsync(buffer);
