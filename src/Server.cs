@@ -30,6 +30,7 @@ foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
         _ => v
     };
 
+    Console.WriteLine($"Loop: {i}");
     Console.WriteLine(element);
 
     //if (v.StartsWith("User-Agent"))
