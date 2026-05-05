@@ -13,31 +13,46 @@ var stream = client.GetStream();
 
 var buffer = new byte[1024];
 int bytesRead = await stream.ReadAsync(buffer);
-Console.WriteLine(bytesRead);
+//Console.WriteLine(bytesRead);
 var request = Encoding.ASCII.GetString(buffer, 0, bytesRead).TrimEnd('\0');
 var requestElements = request.Split("\n");
-Console.WriteLine("Request Elements");
+//Console.WriteLine("Request Elements");
 //Console.WriteLine(string.Join(", ", requestElements));
-string output = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n";
+//string output = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n";
+var output = new List<string>();
 foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
 {
     string element = v switch
     {
-        string s when s.StartsWith("/echo") => s.Split("/")[2],
-        string s when s.StartsWith("/") => s,
-        string s when s.StartsWith("User-Agent") => s.Split(" ")[1],
-        string s when s.StartsWith("Host") => s.Split(" ")[1],
-        _ => v
+        string s when s.StartsWith("GET") => s.Split(" ")[1], // endpoint
+        string s when s.StartsWith("/echo") => s.Split("/")[2], // {str}
+        string s when s.StartsWith("/") => s, // root path
+        string s when s.StartsWith("User-Agent") => s.Split(" ")[1], // user agent 
+        string s when s.StartsWith("Host") => s.Split(" ")[1], // 
+        _ => string.Empty
     };
 
-    Console.WriteLine($"Loop: {i}");
-    Console.WriteLine(element);
+    if (!string.IsNullOrEmpty(element))
+    {
+        output.Add(element);
+    }
+
+
+    //Console.WriteLine($"Loop: {i}");
+    //Console.WriteLine(element);
 
     //if (v.StartsWith("User-Agent"))
     //{
     //    string userAgent = v.Split(" ")[1];
     //}
 }
+
+if (output.Count < 1)
+{
+    output.Insert(0, "HTTP/1.1 404 Not Found\r\n\r\n");
+}
+
+Console.WriteLine(string.Join(", ", output));
 
 //var verb = requestElements[0];
 //var endpoint = requestElements[1];
