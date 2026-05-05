@@ -16,6 +16,7 @@ foreach (var arg in args)
 var root = "";
 if (args[1] == "--directory")
 {
+    Console.WriteLine(JsonSerializer.Serialize(args));
     root = args[2];
 }
 
