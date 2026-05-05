@@ -27,7 +27,7 @@ foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
         string s when s.StartsWith("/") => s,
         string s when s.StartsWith("User-Agent") => s.Split(" ")[1],
         string s when s.StartsWith("Host") => s.Split(" ")[1],
-        _ => ""
+        _ => v
     };
 
     Console.WriteLine(element);
