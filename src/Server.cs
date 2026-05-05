@@ -72,7 +72,7 @@ while (true)
         {
             var fileName = endpoint.Split("/")[2];
             Console.WriteLine(fileName);
-            var fileContents = File.ReadAllText(fileName);
+            var fileContents = File.ReadAllText(root + "/" + fileName);
             Console.WriteLine(fileContents);
             Console.WriteLine(fileContents.Length);
             // read the content of that 
