@@ -19,10 +19,13 @@ while (true)
 
         //Console.WriteLine($"All args: {JsonSerializer.Serialize(args)}");
         var root = "";
-        if (args[0] == "--directory")
+        if (args.Length > 0)
         {
-            root = args[1];
-            Console.WriteLine(root);
+            if (args[0] == "--directory")
+            {
+                root = args[1];
+                Console.WriteLine(root);
+            }
         }
         var stream = client.GetStream();
         var buffer = new byte[1024];
