@@ -11,9 +11,10 @@ server.Start();
 using var client = server.AcceptTcpClient();
 var stream = client.GetStream();
 
-var requestBa = new byte[1024];
-int bytesRead = await stream.ReadAsync(requestBa);
-var request = Encoding.ASCII.GetString(requestBa, 0, bytesRead).TrimEnd('\0');
+var buffer = new byte[1024];
+int bytesRead = await stream.ReadAsync(buffer);
+Console.WriteLine(bytesRead);
+var request = Encoding.ASCII.GetString(buffer, 0, bytesRead).TrimEnd('\0');
 var requestElements = request.Split("\n");
 Console.WriteLine("Request Elements");
 //Console.WriteLine(string.Join(", ", requestElements));
@@ -22,7 +23,6 @@ foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
     if (v.StartsWith("User-Agent"))
     {
         string userAgent = v.Split(" ")[1];
-        Console.WriteLine(userAgent);
     }
 }
 
