@@ -12,9 +12,9 @@ server.Start();
 
 while (true)
 {
-    await Task.Run(async () =>
+    var client = server.AcceptTcpClient();
+    Task.Run(async () =>
     {
-        using var client = server.AcceptTcpClient();
         var stream = client.GetStream();
         var buffer = new byte[1024];
         int bytesRead = await stream.ReadAsync(buffer);
