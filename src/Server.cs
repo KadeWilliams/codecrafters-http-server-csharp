@@ -70,9 +70,9 @@ while (true)
         }
         else if (endpoint.Contains("/files"))
         {
-            var file = endpoint.Split("/")[1];
-            Console.WriteLine(file);
-            var fileContents = File.ReadAllText(file);
+            var fileName = endpoint.Split("/")[2];
+            Console.WriteLine(fileName);
+            var fileContents = File.ReadAllText(fileName);
             Console.WriteLine(fileContents);
             Console.WriteLine(fileContents.Length);
             // read the content of that 
