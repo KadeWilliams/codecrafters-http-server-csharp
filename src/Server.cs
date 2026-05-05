@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Net.WebSockets;
 using System.Text;
+using System.Text.Json;
 
 // You can use print statements as follows for debugging, they'll be visible when running tests.
 Console.WriteLine("Logs from your program will appear here!");
@@ -21,42 +22,75 @@ Console.WriteLine("Request Elements");
 Console.WriteLine(string.Join(", ", requestElements));
 //string output = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n";
 var output = new List<string>();
+var outDict = new Dictionary<string, string>();
 foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
 {
-    Console.WriteLine(v);
-    string element = v switch
+    if (i == 0)
     {
-        string s when s.StartsWith("GET") => s.Split(" ")[1], // endpoint
-        string s when s.StartsWith("/echo") => s.Split("/")[2], // {str}
-        string s when s.StartsWith("/") => s, // root path
-        string s when s.StartsWith("User-Agent") => s.Split(" ")[1], // user agent 
-        string s when s.StartsWith("Host") => s.Split(" ")[1], // 
-        _ => string.Empty
-    };
-
-    Console.WriteLine(element);
-
-    if (!string.IsNullOrEmpty(element))
-    {
-        output.Add(element);
+        outDict.Add("endpoint", v.Split(" ")[1]);
+        continue;
     }
 
+    switch (v)
+    {
+        case var s when s.StartsWith("User-Agent"):
+            var agent = s.Split(" ")[1];
+            outDict.Add("User-Agent", agent);
+            break;
+        case var s when s.StartsWith("/echo"):
+            var str = s.Split("/")[2];
+            outDict.Add("str", str);
+            break;
+        case var s when s.StartsWith("/") && s.Length == 1:
+            var root = "";
+            outDict.Add("root", root);
+            break;
+    }
 
-    //Console.WriteLine($"Loop: {i}");
-    //Console.WriteLine(element);
-
-    //if (v.StartsWith("User-Agent"))
-    //{
-    //    string userAgent = v.Split(" ")[1];
-    //}
 }
 
-if (output.Count < 1)
-{
-    output.Insert(0, "HTTP/1.1 404 Not Found\r\n\r\n");
-}
+Console.WriteLine(JsonSerializer.Serialize(outDict));
 
-Console.WriteLine(string.Join(", ", output));
+//foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
+//{
+//    Console.WriteLine(v);
+//    string element = v switch
+//    {
+//        string s when s.StartsWith("GET") => s.Split(" ")[1], // endpoint
+//        string s when s.StartsWith("/echo") => s.Split("/")[2], // {str}
+//        string s when s.StartsWith("/") => s, // root path
+//        string s when s.StartsWith("User-Agent") => s.Split(" ")[1], // user agent 
+//        string s when s.StartsWith("Host") => s.Split(" ")[1]+"\r\n", // 
+//        _ => string.Empty
+//    };
+
+//    Console.WriteLine(element);
+
+//    if (!string.IsNullOrEmpty(element))
+//    {
+//        output.Add(element);
+//    }
+
+
+//    //Console.WriteLine($"Loop: {i}");
+//    //Console.WriteLine(element);
+
+//    //if (v.StartsWith("User-Agent"))
+//    //{
+//    //    string userAgent = v.Split(" ")[1];
+//    //}
+//}
+
+//if (output.Count < 1)
+//{
+//    output.Insert(0, "HTTP/1.1 404 Not Found\r\n\r\n");
+//}
+//else
+//{
+//    output.Insert(0, "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n");
+//}
+
+//Console.WriteLine(string.Join("", output));
 
 //var verb = requestElements[0];
 //var endpoint = requestElements[1];
