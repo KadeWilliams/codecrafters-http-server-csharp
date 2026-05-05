@@ -12,11 +12,10 @@ foreach (var arg in args)
     Console.WriteLine(arg);
 }
 
-
+Console.WriteLine(JsonSerializer.Serialize(args));
 var root = "";
 if (args[1] == "--directory")
 {
-    Console.WriteLine(JsonSerializer.Serialize(args));
     root = args[2];
     Console.WriteLine(root);
 }
