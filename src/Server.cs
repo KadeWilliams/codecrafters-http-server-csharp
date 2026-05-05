@@ -16,12 +16,8 @@ while (true)
     var client = server.AcceptTcpClient();
     Task.Run(async () =>
     {
-        foreach (var arg in args)
-        {
-            Console.WriteLine(arg);
-        }
 
-        Console.WriteLine($"All args: {JsonSerializer.Serialize(args)}");
+        //Console.WriteLine($"All args: {JsonSerializer.Serialize(args)}");
         var root = "";
         if (args[0] == "--directory")
         {
@@ -72,11 +68,11 @@ while (true)
         else if (endpoint.Contains("/files"))
         {
             var fileName = endpoint.Split("/")[2];
-            Console.WriteLine(fileName);
-            Console.WriteLine(root + "/" + fileName);
-            var fileContents = File.ReadAllText(root + "/" + fileName);
-            Console.WriteLine(fileContents);
-            Console.WriteLine(fileContents.Length);
+            //Console.WriteLine(fileName);
+            //Console.WriteLine(root + "/" + fileName);
+            var fileContents = File.ReadAllText(root + fileName);
+            //Console.WriteLine(fileContents);
+            //Console.WriteLine(fileContents.Length);
             output = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {fileContents.Length}\r\n\r\n{fileContents}";
         }
         else
