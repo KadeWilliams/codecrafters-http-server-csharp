@@ -18,14 +18,15 @@ int bytesRead = await stream.ReadAsync(buffer);
 //Console.WriteLine(bytesRead);
 var request = Encoding.ASCII.GetString(buffer, 0, bytesRead).TrimEnd('\0');
 var requestElements = request.Split("\n");
-Console.WriteLine("Request Elements");
-Console.WriteLine(string.Join(", ", requestElements));
+//Console.WriteLine("Request Elements");
+//Console.WriteLine(string.Join(", ", requestElements));
 //string output = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n";
 var outDict = new Dictionary<string, string>();
 foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
 {
     if (i == 0)
     {
+        Console.WriteLine("1");
         outDict.Add("endpoint", v.Split(" ")[1]);
         continue;
     }
@@ -33,6 +34,7 @@ foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
     switch (v)
     {
         case var s when s.StartsWith("User-Agent"):
+            Console.WriteLine("2");
             var agent = s.Split(" ")[1];
             outDict.Add("User-Agent", agent);
             break;
@@ -44,6 +46,7 @@ var endpoint = outDict["endpoint"];
 if (endpoint.Contains("echo"))
 {
     //do something
+    Console.WriteLine("3");
     output = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {endpoint.Split("/")[2].Length}\r\n\r\n{endpoint.Split("/")[2]}";
 }
 else if (endpoint == "/")
@@ -53,6 +56,7 @@ else if (endpoint == "/")
 }
 else if (endpoint == "/user-agent")
 {
+    Console.WriteLine("4");
     output = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {endpoint.Split("/")[2].Length}\r\n\r\n{endpoint.Split("/")[2]}";
 }
 else
