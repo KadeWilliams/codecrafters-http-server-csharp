@@ -21,6 +21,7 @@ while (true)
 
         var request = Encoding.ASCII.GetString(buffer, 0, bytesRead).TrimEnd('\0');
         var requestElements = request.Split("\n");
+        Console.WriteLine(JsonSerializer.Serialize(requestElements));
 
         var outDict = new Dictionary<string, string>();
         foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
