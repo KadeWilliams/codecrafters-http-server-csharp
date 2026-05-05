@@ -65,7 +65,9 @@ else
     output = "HTTP/1.1 404 Not Found\r\n\r\n";
 }
 
-Console.WriteLine(JsonSerializer.Serialize(outDict));
+//Console.WriteLine(JsonSerializer.Serialize(outDict));
+
+Console.WriteLine(output);
 
 
 //foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
