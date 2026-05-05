@@ -26,7 +26,7 @@ foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
 {
     if (i == 0)
     {
-        Console.WriteLine("1");
+        //Console.WriteLine("1");
         outDict.Add("endpoint", v.Split(" ")[1]);
         continue;
     }
@@ -67,7 +67,8 @@ else
 
 //Console.WriteLine(JsonSerializer.Serialize(outDict));
 
-Console.WriteLine(output);
+var encodedResponse = Encoding.ASCII.GetBytes(output);
+await stream.WriteAsync(encodedResponse, 0, encodedResponse.Length);
 
 
 //foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
