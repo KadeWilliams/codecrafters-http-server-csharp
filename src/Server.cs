@@ -26,8 +26,8 @@ foreach (var element in requestElements.Select((v, i) => (v, i)))
 var verb = requestElements[0];
 var endpoint = requestElements[1];
 var protocol = requestElements[2];
-var host = requestElements[4];
-var userAgent = requestElements[6];
+var host = requestElements[3];
+var userAgent = requestElements[4];
 
 
 
