@@ -58,7 +58,7 @@ else if (endpoint == "/user-agent")
 {
     Console.WriteLine("4");
     var userAgent = outDict["User-Agent"];
-    output = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {userAgent.Length}\r\n\r\n{userAgent}";
+    output = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {userAgent.Trim().Length}\r\n\r\n{userAgent}";
 }
 else
 {
