@@ -30,7 +30,7 @@ while (true)
 
         var request = Encoding.ASCII.GetString(buffer, 0, bytesRead).TrimEnd('\0');
         var requestElements = request.Split("\n");
-        Console.WriteLine(JsonSerializer.Serialize(requestElements));
+        //Console.WriteLine(JsonSerializer.Serialize(requestElements));
 
         var outDict = new Dictionary<string, string>();
         foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
@@ -80,7 +80,7 @@ while (true)
             output = "HTTP/1.1 404 Not Found\r\n\r\n";
         }
 
-        //Console.WriteLine(JsonSerializer.Serialize(outDict));
+        Console.WriteLine(output);
 
         var encodedResponse = Encoding.ASCII.GetBytes(output);
         await stream.WriteAsync(encodedResponse, 0, encodedResponse.Length);
