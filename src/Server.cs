@@ -18,14 +18,18 @@ var request = Encoding.ASCII.GetString(buffer, 0, bytesRead).TrimEnd('\0');
 var requestElements = request.Split("\n");
 Console.WriteLine("Request Elements");
 //Console.WriteLine(string.Join(", ", requestElements));
+string output = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n";
 foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
 {
     string element = v switch
     {
         string s when s.StartsWith("/echo") => s.Split("/")[2],
+        string s when s.StartsWith("/") => s,
         string s when s.StartsWith("User-Agent") => s.Split(" ")[1],
-        _ => v
+        string s when s.StartsWith("Host") => s.Split(" ")[1],
+        _ => ""
     };
+
     Console.WriteLine(element);
 
     //if (v.StartsWith("User-Agent"))
