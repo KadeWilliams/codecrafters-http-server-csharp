@@ -17,10 +17,11 @@ var request = Encoding.ASCII.GetString(requestBa);
 var requestElements = request.Split(" ");
 Console.WriteLine("Request Elements");
 //Console.WriteLine(string.Join(", ", requestElements));
-//foreach (var element in requestElements)
-//{
-//    Console.WriteLine(element);
-//}
+foreach (var element in requestElements.Select((v, i) => (v, i)))
+{
+    Console.WriteLine(element.i);
+    Console.WriteLine(element.v);
+}
 
 var verb = requestElements[0];
 var endpoint = requestElements[1];
