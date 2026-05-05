@@ -17,7 +17,7 @@ while (true)
     Task.Run(async () =>
     {
 
-        //Console.WriteLine($"All args: {JsonSerializer.Serialize(args)}");
+        Console.WriteLine($"All args: {JsonSerializer.Serialize(args)}");
         var root = "";
         string contents = "";
         if (args.Length > 0)
