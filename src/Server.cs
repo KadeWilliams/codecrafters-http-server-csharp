@@ -88,6 +88,7 @@ while (true)
             {
                 if (outDict["verb"] == "POST")
                 {
+                    Console.WriteLine(contents);
                     File.WriteAllText(fullPath, contents);
                     output = $"HTTP/1.1 201 Created\r\n\r\n";
                 }
