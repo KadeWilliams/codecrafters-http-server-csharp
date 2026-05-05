@@ -28,6 +28,8 @@ var endpoint = requestElements[1];
 var protocol = requestElements[2];
 var host = requestElements[3];
 var userAgent = requestElements[4];
+Console.WriteLine(userAgent);
+Console.WriteLine(userAgent.Length);
 
 
 
