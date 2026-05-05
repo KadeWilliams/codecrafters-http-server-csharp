@@ -23,9 +23,9 @@ while (true)
 
         Console.WriteLine($"All args: {JsonSerializer.Serialize(args)}");
         var root = "";
-        if (args[1] == "--directory")
+        if (args[0] == "--directory")
         {
-            root = args[2];
+            root = args[1];
             Console.WriteLine(root);
         }
         var stream = client.GetStream();
