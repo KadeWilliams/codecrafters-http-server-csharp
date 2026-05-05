@@ -17,26 +17,31 @@ var request = Encoding.ASCII.GetString(requestBa);
 var requestElements = request.Split(" ");
 Console.WriteLine("Request Elements");
 //Console.WriteLine(string.Join(", ", requestElements));
+//foreach (var element in requestElements)
+//{
+//    Console.WriteLine(element);
+//}
 
-foreach (var element in requestElements)
-{
-    Console.WriteLine(element);
-}
+var verb = requestElements[0];
+var endpoint = requestElements[1];
+var protocol = requestElements[2];
+var host = requestElements[4];
+var userAgent = requestElements[6];
+
+
 
 //var mba = new Span<byte>();
 //await stream.ReadAsync(mba);
 //Encoding.ASCII.GetString(mba);
-
-var endpoint = requestElements[1];
 
 //Console.WriteLine("Split Endpoint");
 //Console.WriteLine(string.Join(",", endpoint.Split("/")));
 
 var response = endpoint switch
 {
-    string s when s.StartsWith("/echo") => $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {s.Split("/")[2].Length}\r\n\r\n{s.Split("/")[2]}",
-    string s when s.StartsWith("/user-agent") => $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {s.Split("/")[1].Length}\r\n\r\n",
-    string s when s.StartsWith("/") && s.Length == 1 => "HTTP/1.1 200 OK\r\n\r\n",
+    string s when s.StartsWith("/echo") => $"{protocol} 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {s.Split("/")[2].Length}\r\n\r\n{s.Split("/")[2]}",
+    string s when s.StartsWith("/user-agent") => $"{protocol} 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {userAgent.Length}\r\n\r\n",
+    string s when s.StartsWith("/") && s.Length == 1 => $"{protocol} 200 OK\r\n\r\n",
     _ => "HTTP/1.1 404 Not Found\r\n\r\n"
 };
 
