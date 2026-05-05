@@ -17,10 +17,13 @@ var request = Encoding.ASCII.GetString(requestBa, 0, bytesRead).TrimEnd('\0');
 var requestElements = request.Split("\n");
 Console.WriteLine("Request Elements");
 //Console.WriteLine(string.Join(", ", requestElements));
-foreach (var element in requestElements.Select((v, i) => (v, i)))
+foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
 {
-    Console.WriteLine(element.i);
-    Console.WriteLine(element.v);
+    if (v.StartsWith("User-Agent"))
+    {
+        string userAgent = v.Split(" ")[1];
+        Console.WriteLine(userAgent);
+    }
 }
 
 //var verb = requestElements[0];
