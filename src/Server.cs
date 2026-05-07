@@ -117,6 +117,10 @@ while (true)
             outputList.Clear();
             outputList.Add("HTTP/1.1 404 Not Found\r\n\r\n");
         }
+        else
+        {
+            outputList.Add("\r\n");
+        }
 
         Console.WriteLine($"{string.Join("", outputList)}");
         output = string.Join("", outputList);
