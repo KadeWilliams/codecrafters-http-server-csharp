@@ -74,9 +74,9 @@ while (true)
             outputList.Insert(0, "HTTP/1.1 200 OK\r\n\r\n");
         }
 
-        if (outDict.ContainsKey("Accept-Encoding") && outDict["Accept-Encoding"] == "gzip")
+        if (outDict.ContainsKey("Accept-Encoding") && outDict["Accept-Encoding"].Trim() == "gzip")
         {
-            outputList.Add($"Content-Encoding: {outDict["Accept-Encoding"]}\r\n");
+            outputList.Add($"Content-Encoding: {outDict["Accept-Encoding"].Trim()}\r\n");
         }
 
         if (endpoint.Contains("echo"))
