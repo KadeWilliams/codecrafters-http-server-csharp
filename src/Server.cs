@@ -78,6 +78,7 @@ while (true)
         {
             foreach (var encoding in outDict["Accept-Encoding"].Split(","))
             {
+                Console.WriteLine(encoding);
                 if (encoding == "gzip")
                 {
                     outputList.Add($"Content-Encoding: {encoding.Trim()}\r\n");
