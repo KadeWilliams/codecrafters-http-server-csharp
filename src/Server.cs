@@ -111,7 +111,7 @@ while (true)
                 }
             }
         }
-        else
+        else if (endpoint != "/")
         {
             outputList.Clear();
             outputList.Add("HTTP/1.1 404 Not Found\r\n");
