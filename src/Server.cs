@@ -93,6 +93,7 @@ while (true)
         {
             var element = endpoint.Split("/")[2];
             outputList.Add($"Content-Type: text/plain\r\nContent-Length: {element.Length}\r\n\r\n");
+            Console.WriteLine(element);
             if (outputList.Any(i => Regex.IsMatch(i, "^Content-Encoding")))
             {
                 byte[] encodedElement = Encoding.ASCII.GetBytes(element);
