@@ -100,7 +100,7 @@ while (true)
                     {
                         zip.Write(buffer, 0, buffer.Length);
                     }
-                    string bitString = string.Join(" ", rawBytes.Select(b => Convert.ToString(b, 2).PadLeft(8, '0')));
+                    string bitString = string.Join("", rawBytes.Select(b => Convert.ToString(b, 2).PadLeft(8, '0')));
                     outputList.Add(bitString);
                 }
             }
