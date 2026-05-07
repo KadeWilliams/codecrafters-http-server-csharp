@@ -95,7 +95,7 @@ while (true)
             if (!File.Exists(fullPath) && !(outDict["verb"] == "POST"))
             {
                 outputList.Clear();
-                outputList.Add("HTTP/1.1 404 Not Found\r\n");
+                outputList.Add("HTTP/1.1 404 Not Found\r\n\r\n");
             }
             else
             {
