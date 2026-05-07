@@ -74,6 +74,11 @@ while (true)
             outputList.Insert(0, "HTTP/1.1 200 OK\r\n\r\n");
         }
 
+        if (outDict.ContainsKey("Accept-Encoding"))
+        {
+            outputList.Add($"Content-Encoding: {outDict["Accept-Encoding"]}");
+        }
+
         if (endpoint.Contains("echo"))
         {
             outputList.Add($"Content-Type: text/plain\r\nContent-Length: {endpoint.Split("/")[2].Length}\r\n\r\n{endpoint.Split("/")[2]}");
