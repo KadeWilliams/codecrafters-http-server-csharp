@@ -100,7 +100,7 @@ while (true)
                     {
                         zip.Write(buffer, 0, buffer.Length);
                     }
-                    outputList.Add(ms.ToString());
+                    outputList.Add(Convert.ToBase64String(ms.ToArray()));
                 }
             }
             else
