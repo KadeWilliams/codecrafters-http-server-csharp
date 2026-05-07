@@ -1,8 +1,10 @@
+using System.IO.Compression;
 using System.Net;
 using System.Net.Sockets;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 // You can use print statements as follows for debugging, they'll be visible when running tests.
 Console.WriteLine("Logs from your program will appear here!");
@@ -76,7 +78,6 @@ while (true)
 
         if (outDict.ContainsKey("Accept-Encoding"))
         {
-            Console.WriteLine(JsonSerializer.Serialize(outDict["Accept-Encoding"]));
             foreach (var encoding in outDict["Accept-Encoding"].Trim().Split(", "))
             {
                 if (encoding == "gzip")
@@ -88,7 +89,24 @@ while (true)
 
         if (endpoint.Contains("echo"))
         {
-            outputList.Add($"Content-Type: text/plain\r\nContent-Length: {endpoint.Split("/")[2].Length}\r\n\r\n{endpoint.Split("/")[2]}");
+            var element = endpoint.Split("/")[2];
+            outputList.Add($"Content-Type: text/plain\r\nContent-Length: {element.Length}\r\n\r\n");
+            if (outputList.Any(i => Regex.IsMatch(i, "^Content-Encoding")))
+            {
+                byte[] rawBytes = Encoding.ASCII.GetBytes(element);
+                using (var ms = new MemoryStream())
+                {
+                    using (var zip = new GZipStream(ms, CompressionMode.Compress))
+                    {
+                        zip.Write(buffer, 0, buffer.Length);
+                    }
+                    outputList.Add(ms.ToString());
+                }
+            }
+            else
+            {
+                outputList.Add(element);
+            }
         }
         else if (endpoint == "/user-agent")
         {
