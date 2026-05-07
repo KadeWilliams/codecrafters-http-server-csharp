@@ -76,9 +76,9 @@ while (true)
 
         if (outDict.ContainsKey("Accept-Encoding"))
         {
-            foreach (var encoding in outDict["Accept-Encoding"].Split(","))
+            Console.WriteLine(JsonSerializer.Serialize(outDict["Accept-Encoding"]));
+            foreach (var encoding in outDict["Accept-Encoding"].Split(", "))
             {
-                Console.WriteLine(encoding);
                 if (encoding == "gzip")
                 {
                     outputList.Add($"Content-Encoding: {encoding.Trim()}\r\n");
