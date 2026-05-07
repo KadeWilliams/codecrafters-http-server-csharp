@@ -100,7 +100,8 @@ while (true)
                     {
                         zip.Write(buffer, 0, buffer.Length);
                     }
-                    outputList.Add(Convert.ToBase64String(ms.ToArray()));
+                    string bitString = string.Join(" ", rawBytes.Select(b => Convert.ToString(b, 2).PadLeft(8, '0')));
+                    outputList.Add(bitString);
                 }
             }
             else
