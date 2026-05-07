@@ -103,6 +103,7 @@ while (true)
                 {
                     contents = outDict["contents"];
                     File.WriteAllText(fullPath, contents);
+                    outputList.Add("\r\n");
                 }
                 else
                 {
@@ -117,54 +118,10 @@ while (true)
             outputList.Add("HTTP/1.1 404 Not Found\r\n");
         }
 
-        //var endpoint = outDict["endpoint"];
-        //if (endpoint.Contains("echo"))
-        //{
-        //    output = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {endpoint.Split("/")[2].Length}\r\n\r\n{endpoint.Split("/")[2]}";
-        //}
-        //else if (endpoint == "/")
-        //{
-        //    output = "HTTP/1.1 200 OK\r\n\r\n";
-        //}
-        //else if (endpoint == "/user-agent")
-        //{
-        //    var userAgent = outDict["User-Agent"];
-        //    output = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {userAgent.Trim().Length}\r\n\r\n{userAgent}";
-        //}
-        //else if (endpoint.Contains("/files"))
-        //{
-        //    var fileName = endpoint.Split("/")[2];
-        //    //Console.WriteLine(fileName);
-        //    //Console.WriteLine(root + "/" + fileName);
-        //    var fullPath = root + fileName;
-        //    if (!File.Exists(fullPath) && !(outDict["verb"] == "POST"))
-        //    {
-        //        output = "HTTP/1.1 404 Not Found\r\n\r\n";
-        //    }
-        //    else
-        //    {
-        //        if (outDict["verb"] == "POST")
-        //        {
-        //            contents = outDict["contents"];
-        //            File.WriteAllText(fullPath, contents);
-        //            output = $"HTTP/1.1 201 Created\r\n\r\n";
-        //        }
-        //        else
-        //        {
-        //            var fileContents = File.ReadAllText(fullPath);
-        //            output = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {fileContents.Length}\r\n\r\n{fileContents}";
-        //        }
-        //    }
-        //}
-        //else
-        //{
-        //    output = "HTTP/1.1 404 Not Found\r\n\r\n";
-        //}
-
         Console.WriteLine($"{string.Join("", outputList)}");
         output = string.Join("", outputList);
         var encodedResponse = Encoding.ASCII.GetBytes(output);
-        Console.WriteLine($"{encodedResponse[0]} {encodedResponse[1]}");
+        Console.WriteLine($"{encodedResponse[0].ToString()} {encodedResponse[1].ToString()}");
         await stream.WriteAsync(encodedResponse, 0, encodedResponse.Length);
         client.Close();
     });
