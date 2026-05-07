@@ -54,7 +54,7 @@ while (true)
                     outDict.Add("User-Agent", agent);
                     break;
                 case var s when s.StartsWith("Accept-Encoding"):
-                    var encoding = s.Split(" ")[1];
+                    var encoding = s.Split(":")[1];
                     outDict.Add("Accept-Encoding", encoding);
                     break;
             }
@@ -77,7 +77,7 @@ while (true)
         if (outDict.ContainsKey("Accept-Encoding"))
         {
             Console.WriteLine(JsonSerializer.Serialize(outDict["Accept-Encoding"]));
-            foreach (var encoding in outDict["Accept-Encoding"].Split(", "))
+            foreach (var encoding in outDict["Accept-Encoding"].Trim().Split(", "))
             {
                 if (encoding == "gzip")
                 {
