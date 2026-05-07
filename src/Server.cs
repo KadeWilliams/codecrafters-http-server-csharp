@@ -74,7 +74,7 @@ while (true)
             outputList.Insert(0, "HTTP/1.1 200 OK\r\n");
         }
 
-        if (outDict.ContainsKey("Accept-Encoding") && outDict["Accept-Encoding"].Trim() == "gzip")
+        if (outDict.ContainsKey("Accept-Encoding"))
         {
             foreach (var encoding in outDict["Accept-Encoding"].Split(","))
             {
