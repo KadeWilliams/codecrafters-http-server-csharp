@@ -151,7 +151,8 @@ while (true)
         //    output = "HTTP/1.1 404 Not Found\r\n\r\n";
         //}
 
-        var encodedResponse = Encoding.ASCII.GetBytes(string.Join(" ", outputList));
+        Console.WriteLine($"{string.Join("", outputList)}");
+        var encodedResponse = Encoding.ASCII.GetBytes(string.Join("", outputList));
         await stream.WriteAsync(encodedResponse, 0, encodedResponse.Length);
         client.Close();
     });
