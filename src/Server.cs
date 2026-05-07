@@ -63,7 +63,7 @@ while (true)
 
         var outputList = new List<string>();
         var endpoint = outDict["endpoint"];
-        outputList.Add(endpoint);
+        //outputList.Add(endpoint);
 
         if (outDict["verb"] == "POST")
         {
@@ -89,8 +89,8 @@ while (true)
             var fullPath = root + fileName;
             if (!File.Exists(fullPath) && !(outDict["verb"] == "POST"))
             {
-                outputList.RemoveAt(0);
-                outputList.Insert(0, "HTTP/1.1 404 Not Found\r\n\r\n");
+                outputList.Clear();
+                outputList.Add("HTTP/1.1 404 Not Found\r\n\r\n");
             }
             else
             {
