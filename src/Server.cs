@@ -62,6 +62,7 @@ while (true)
             }
         }
         string output = "";
+        byte[] compressedBytes = Array.Empty<byte>();
 
         var outputList = new List<string>();
         var endpoint = outDict["endpoint"];
@@ -87,21 +88,21 @@ while (true)
             }
         }
 
+
         if (endpoint.Contains("echo"))
         {
             var element = endpoint.Split("/")[2];
             outputList.Add($"Content-Type: text/plain\r\nContent-Length: {element.Length}\r\n\r\n");
             if (outputList.Any(i => Regex.IsMatch(i, "^Content-Encoding")))
             {
-                byte[] rawBytes = Encoding.ASCII.GetBytes(element);
+                byte[] encodedElement = Encoding.ASCII.GetBytes(element);
                 using (var ms = new MemoryStream())
                 {
-                    using (var zip = new GZipStream(ms, CompressionMode.Compress))
+                    using (var gZipStream = new GZipStream(ms, CompressionMode.Compress))
                     {
-                        zip.Write(buffer, 0, buffer.Length);
+                        gZipStream.Write(encodedElement, 0, encodedElement.Length);
                     }
-                    string bitString = string.Join("", rawBytes.Select(b => Convert.ToString(b, 2).PadLeft(8, '0')));
-                    outputList.Add(bitString);
+                    compressedBytes = ms.ToArray();
                 }
             }
             else
@@ -152,6 +153,7 @@ while (true)
         output = string.Join("", outputList);
         var encodedResponse = Encoding.ASCII.GetBytes(output);
         await stream.WriteAsync(encodedResponse, 0, encodedResponse.Length);
+        await stream.WriteAsync(compressedBytes, 0, compressedBytes.Length);
         client.Close();
     });
 }
