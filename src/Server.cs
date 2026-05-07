@@ -115,13 +115,12 @@ while (true)
         else if (endpoint != "/")
         {
             outputList.Clear();
-            outputList.Add("HTTP/1.1 404 Not Found\r\n");
+            outputList.Add("HTTP/1.1 404 Not Found\r\n\r\n");
         }
 
         Console.WriteLine($"{string.Join("", outputList)}");
         output = string.Join("", outputList);
         var encodedResponse = Encoding.ASCII.GetBytes(output);
-        Console.WriteLine($"{encodedResponse[0].ToString()} {encodedResponse[1].ToString()}");
         await stream.WriteAsync(encodedResponse, 0, encodedResponse.Length);
         client.Close();
     });
