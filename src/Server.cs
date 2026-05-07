@@ -164,6 +164,7 @@ while (true)
         Console.WriteLine($"{string.Join("", outputList)}");
         output = string.Join("", outputList);
         var encodedResponse = Encoding.ASCII.GetBytes(output);
+        Console.WriteLine($"{encodedResponse[0]} {encodedResponse[1]}");
         await stream.WriteAsync(encodedResponse, 0, encodedResponse.Length);
         client.Close();
     });
