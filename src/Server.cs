@@ -76,7 +76,13 @@ while (true)
 
         if (outDict.ContainsKey("Accept-Encoding") && outDict["Accept-Encoding"].Trim() == "gzip")
         {
-            outputList.Add($"Content-Encoding: {outDict["Accept-Encoding"].Trim()}\r\n");
+            foreach (var encoding in outDict["Accept-Encoding"].Split(","))
+            {
+                if (encoding == "gzip")
+                {
+                    outputList.Add($"Content-Encoding: {encoding.Trim()}\r\n");
+                }
+            }
         }
 
         if (endpoint.Contains("echo"))
