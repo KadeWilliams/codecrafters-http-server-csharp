@@ -93,7 +93,6 @@ while (true)
         {
             var element = endpoint.Split("/")[2];
             outputList.Add($"Content-Type: text/plain\r\nContent-Length: {element.Length}\r\n\r\n");
-            Console.WriteLine(element);
             if (outputList.Any(i => Regex.IsMatch(i, "^Content-Encoding")))
             {
                 byte[] encodedElement = Encoding.ASCII.GetBytes(element);
@@ -154,6 +153,7 @@ while (true)
         output = string.Join("", outputList);
         var encodedResponse = Encoding.ASCII.GetBytes(output);
         await stream.WriteAsync(encodedResponse, 0, encodedResponse.Length);
+        Console.WriteLine("Compressed Bytes");
         await stream.WriteAsync(compressedBytes, 0, compressedBytes.Length);
         client.Close();
     });
