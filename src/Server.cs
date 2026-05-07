@@ -67,11 +67,11 @@ while (true)
 
         if (outDict["verb"] == "POST")
         {
-            outputList.Insert(0, "HTTP/1.1 201 Created\r\n\r\n");
+            outputList.Insert(0, "HTTP/1.1 201 Created\r\n");
         }
         else if (outDict["verb"] == "GET")
         {
-            outputList.Insert(0, "HTTP/1.1 200 OK\r\n\r\n");
+            outputList.Insert(0, "HTTP/1.1 200 OK\r\n");
         }
 
         if (outDict.ContainsKey("Accept-Encoding") && outDict["Accept-Encoding"].Trim() == "gzip")
@@ -95,7 +95,7 @@ while (true)
             if (!File.Exists(fullPath) && !(outDict["verb"] == "POST"))
             {
                 outputList.Clear();
-                outputList.Add("HTTP/1.1 404 Not Found\r\n\r\n");
+                outputList.Add("HTTP/1.1 404 Not Found\r\n");
             }
             else
             {
@@ -114,7 +114,7 @@ while (true)
         else
         {
             outputList.Clear();
-            outputList.Add("HTTP/1.1 404 Not Found\r\n\r\n");
+            outputList.Add("HTTP/1.1 404 Not Found\r\n");
         }
 
         //var endpoint = outDict["endpoint"];
