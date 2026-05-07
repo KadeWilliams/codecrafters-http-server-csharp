@@ -33,7 +33,7 @@ while (true)
 
         var request = Encoding.ASCII.GetString(buffer, 0, bytesRead).TrimEnd('\0');
         var requestElements = request.Split("\n");
-        Console.WriteLine(JsonSerializer.Serialize(requestElements));
+        Console.WriteLine($"Request Elements: {JsonSerializer.Serialize(requestElements)}");
 
         var outDict = new Dictionary<string, string>();
         foreach (var (v, i) in requestElements.Select((v, i) => (v, i)))
@@ -53,33 +53,44 @@ while (true)
                     var agent = s.Split(" ")[1];
                     outDict.Add("User-Agent", agent);
                     break;
+                case var s when s.StartsWith("Accept-Encoding"):
+                    var encoding = s.Split(" ")[1];
+                    outDict.Add("Accept-Encoding", encoding);
+                    break;
             }
         }
         string output = "";
 
+        var outputList = new List<string>();
         var endpoint = outDict["endpoint"];
+        outputList.Add(endpoint);
+
+        if (outDict["verb"] == "POST")
+        {
+            outputList.Insert(0, "HTTP/1.1 201 Created\r\n\r\n");
+        }
+        else if (outDict["verb"] == "GET")
+        {
+            outputList.Insert(0, "HTTP/1.1 200 OK\r\n\r\n");
+        }
+
         if (endpoint.Contains("echo"))
         {
-            output = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {endpoint.Split("/")[2].Length}\r\n\r\n{endpoint.Split("/")[2]}";
-        }
-        else if (endpoint == "/")
-        {
-            output = "HTTP/1.1 200 OK\r\n\r\n";
+            outputList.Add($"Content-Type: text/plain\r\nContent-Length: {endpoint.Split("/")[2].Length}\r\n\r\n{endpoint.Split("/")[2]}");
         }
         else if (endpoint == "/user-agent")
         {
             var userAgent = outDict["User-Agent"];
-            output = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {userAgent.Trim().Length}\r\n\r\n{userAgent}";
+            outputList.Add($"Content-Type: text/plain\r\nContent-Length: {userAgent.Trim().Length}\r\n\r\n{userAgent}");
         }
         else if (endpoint.Contains("/files"))
         {
             var fileName = endpoint.Split("/")[2];
-            //Console.WriteLine(fileName);
-            //Console.WriteLine(root + "/" + fileName);
             var fullPath = root + fileName;
             if (!File.Exists(fullPath) && !(outDict["verb"] == "POST"))
             {
-                output = "HTTP/1.1 404 Not Found\r\n\r\n";
+                outputList.RemoveAt(0);
+                outputList.Insert(0, "HTTP/1.1 404 Not Found\r\n\r\n");
             }
             else
             {
@@ -87,21 +98,60 @@ while (true)
                 {
                     contents = outDict["contents"];
                     File.WriteAllText(fullPath, contents);
-                    output = $"HTTP/1.1 201 Created\r\n\r\n";
                 }
                 else
                 {
                     var fileContents = File.ReadAllText(fullPath);
-                    output = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {fileContents.Length}\r\n\r\n{fileContents}";
+                    outputList.Add($"Content-Type: application/octet-stream\r\nContent-Length: {fileContents.Length}\r\n\r\n{fileContents}");
                 }
             }
         }
-        else
-        {
-            output = "HTTP/1.1 404 Not Found\r\n\r\n";
-        }
 
-        Console.WriteLine(output);
+        //var endpoint = outDict["endpoint"];
+        //if (endpoint.Contains("echo"))
+        //{
+        //    output = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {endpoint.Split("/")[2].Length}\r\n\r\n{endpoint.Split("/")[2]}";
+        //}
+        //else if (endpoint == "/")
+        //{
+        //    output = "HTTP/1.1 200 OK\r\n\r\n";
+        //}
+        //else if (endpoint == "/user-agent")
+        //{
+        //    var userAgent = outDict["User-Agent"];
+        //    output = $"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {userAgent.Trim().Length}\r\n\r\n{userAgent}";
+        //}
+        //else if (endpoint.Contains("/files"))
+        //{
+        //    var fileName = endpoint.Split("/")[2];
+        //    //Console.WriteLine(fileName);
+        //    //Console.WriteLine(root + "/" + fileName);
+        //    var fullPath = root + fileName;
+        //    if (!File.Exists(fullPath) && !(outDict["verb"] == "POST"))
+        //    {
+        //        output = "HTTP/1.1 404 Not Found\r\n\r\n";
+        //    }
+        //    else
+        //    {
+        //        if (outDict["verb"] == "POST")
+        //        {
+        //            contents = outDict["contents"];
+        //            File.WriteAllText(fullPath, contents);
+        //            output = $"HTTP/1.1 201 Created\r\n\r\n";
+        //        }
+        //        else
+        //        {
+        //            var fileContents = File.ReadAllText(fullPath);
+        //            output = $"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {fileContents.Length}\r\n\r\n{fileContents}";
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    output = "HTTP/1.1 404 Not Found\r\n\r\n";
+        //}
+
+        Console.WriteLine(string.Join(" ", outputList));
 
         var encodedResponse = Encoding.ASCII.GetBytes(output);
         await stream.WriteAsync(encodedResponse, 0, encodedResponse.Length);
