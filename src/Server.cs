@@ -111,6 +111,11 @@ while (true)
                 }
             }
         }
+        else
+        {
+            outputList.Clear();
+            outputList.Add("HTTP/1.1 404 Not Found\r\n\r\n");
+        }
 
         //var endpoint = outDict["endpoint"];
         //if (endpoint.Contains("echo"))
@@ -157,7 +162,8 @@ while (true)
         //}
 
         Console.WriteLine($"{string.Join("", outputList)}");
-        var encodedResponse = Encoding.ASCII.GetBytes(string.Join("", outputList));
+        output = string.Join("", outputList);
+        var encodedResponse = Encoding.ASCII.GetBytes(output);
         await stream.WriteAsync(encodedResponse, 0, encodedResponse.Length);
         client.Close();
     });
