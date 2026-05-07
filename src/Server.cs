@@ -153,7 +153,7 @@ while (true)
         output = string.Join("", outputList);
         var encodedResponse = Encoding.ASCII.GetBytes(output);
         await stream.WriteAsync(encodedResponse, 0, encodedResponse.Length);
-        Console.WriteLine("Compressed Bytes");
+        Console.WriteLine(compressedBytes.Length);
         await stream.WriteAsync(compressedBytes, 0, compressedBytes.Length);
         client.Close();
     });
