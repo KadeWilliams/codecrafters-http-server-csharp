@@ -76,7 +76,7 @@ while (true)
 
         if (outDict.ContainsKey("Accept-Encoding"))
         {
-            outputList.Add($"Content-Encoding: {outDict["Accept-Encoding"]}");
+            outputList.Add($"Content-Encoding: {outDict["Accept-Encoding"]}\r\n");
         }
 
         if (endpoint.Contains("echo"))
